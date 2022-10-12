@@ -1,7 +1,8 @@
+import kotlin.math.*
 fun main() {
-    val point1 = Position(5.2,7.3)
+    var point1 = Position(5.2,7.3)
     println(point1.toString())
-    val point2 = Position(8.1,9.4)
+    var point2 = Position(8.1,9.4)
     print(point1.calcDistance(point2))
 }
 

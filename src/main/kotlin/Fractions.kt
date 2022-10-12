@@ -1,5 +1,5 @@
 fun main() {
-    var f1 = Fraction(75,60)
+    var f1 = Fraction(12,15)
 
     var f2 = Fraction(9,12)
 
@@ -69,7 +69,7 @@ open class Fraction(public var numerator: Int, public var denominator: Int): Fra
         if (other is Fraction) {
             var gcds=gcd(denominator,other.denominator)
             val finDenominator = (denominator * other.denominator)/gcds
-            val finNumerator = ((numerator) * (finDenominator/denominator) - (other.numerator) - (finDenominator/other.denominator))
+            val finNumerator = ((numerator) * (finDenominator/denominator) - (other.numerator) * (finDenominator/other.denominator))
             numerator = finNumerator
             denominator = finDenominator
         }
