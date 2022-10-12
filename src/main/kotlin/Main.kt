@@ -1,13 +1,19 @@
 fun main() {
-    val point = position(5,7)
+    val point1 = position(5,7)
     println(point.toString())
+    val point2 = position(8,9)
 }
 
 interface twoDPlane {
-    fun get
+    fun moveXSymmetrically()
+    fun moveYSymmetrically()
+    fun calcDistance(other: Any?): Double {
+        return 0.2
+    }
+
 }
 
-class position(private var x: Int, private var y: Int) {
+open class position(protected var x: Int, protected var y: Int): twoDPlane {
 
     override fun toString(): String {
         return "X: $x Y: $y"
@@ -20,6 +26,18 @@ class position(private var x: Int, private var y: Int) {
             }
         }
         return false
+    }
+
+    override fun moveXSymmetrically(){
+        x = -x
+    }
+
+    override fun moveYSymmetrically(){
+        y = -y
+    }
+
+    override fun calcDistance(other: Any?): Double {
+        return Math.sqrt(Math.pow(x - other.x) + Math.pow(y - other.y))
     }
 
 
