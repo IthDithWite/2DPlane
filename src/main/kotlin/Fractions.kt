@@ -1,39 +1,32 @@
 fun main() {
-    var f1 = Fraction(12,15)
+    val f1 = Fraction(12,15)
 
-    var f2 = Fraction(9,12)
+    val f2 = Fraction(9,12)
 
     println(f1)
     println(f1==f2)
     f1.simplifyFraction()
     println(f1)
+    f2.simplifyFraction()
 
-    f1.subtractFractions(f2)
-    f1.simplifyFraction()
-    println(f1)
+    println(f1.subtractFractions(f2))
 
-    f1.addFractions(f2)
-    f1.simplifyFraction()
-    println(f1)
+    println(f1.addFractions(f2))
 
-    f1.divideFractions(f2)
-    f1.simplifyFraction()
-    println(f1)
+    println(f1.divideFractions(f2))
 
-    f1.multiplyFractions(f2)
-    f1.simplifyFraction()
-    println(f1)
+    println(f1.multiplyFractions(f2))
 }
 
 interface FractionMaths {
         fun simplifyFraction() // გამარტივება
-        fun addFractions(other: Any?) // დამატება
-        fun subtractFractions(other: Any?) // გამოკლება
-        fun multiplyFractions(other: Any?) // გამრავლება
-        fun divideFractions(other: Any?) // გაყოფა
+        fun addFractions(other: Any?): Any? // დამატება
+        fun subtractFractions(other: Any?): Any? // გამოკლება
+        fun multiplyFractions(other: Any?): Any? // გამრავლება
+        fun divideFractions(other: Any?): Any? // გაყოფა
 }
 
-open class Fraction(public var numerator: Int, public var denominator: Int): FractionMaths {
+open class Fraction(protected var numerator: Int, protected var denominator: Int): FractionMaths {
 
     override fun toString(): String { // გამოტანა
         return "$numerator / $denominator"
@@ -50,51 +43,51 @@ open class Fraction(public var numerator: Int, public var denominator: Int): Fra
     }
 
     override fun simplifyFraction() { // წილადის გამარტივება
-        var gcd1 = gcd(numerator, denominator)
+        val gcd1 = gcd(numerator, denominator)
         numerator /= gcd1
         denominator /= gcd1
     }
 
-    override fun addFractions(other: Any?) { //წილადების დამატება
+    override fun addFractions(other: Any?): Any? { //წილადების დამატება
          if (other is Fraction) {
-             var gcds=gcd(denominator,other.denominator)
+             val gcds=gcd(denominator,other.denominator)
              val finDenominator = (denominator * other.denominator)/gcds
              val finNumerator = ((numerator) * (finDenominator/denominator) + (other.numerator) * (finDenominator/other.denominator))
-             numerator = finNumerator
-             denominator = finDenominator
+             return Fraction(finNumerator,finDenominator)
          }
+        return Fraction(numerator,denominator)
     }
 
-    override fun subtractFractions(other: Any?) { // წილადების გამოკლება
+    override fun subtractFractions(other: Any?): Any? { // წილადების გამოკლება
         if (other is Fraction) {
-            var gcds=gcd(denominator,other.denominator)
-            val finDenominator = (denominator * other.denominator)/gcds
-            val finNumerator = ((numerator) * (finDenominator/denominator) - (other.numerator) * (finDenominator/other.denominator))
-            numerator = finNumerator
-            denominator = finDenominator
+            val gcds=gcd(denominator,other.denominator)
+            val finDenominator: Int  = (denominator * other.denominator)/gcds
+            val finNumerator: Int = ((numerator) * (finDenominator/denominator) - (other.numerator) * (finDenominator/other.denominator))
+            return Fraction(finNumerator, finDenominator)
         }
+        return Fraction(numerator, denominator)
     }
 
-    override fun divideFractions(other: Any?) { //წილადების გაყოფა
+    override fun divideFractions(other: Any?): Any? { //წილადების გაყოფა
         if (other is Fraction) {
             val finDenominator = denominator * other.numerator
             val finNumerator = numerator * other.denominator
-            denominator = finDenominator
-            numerator = finNumerator
+            return Fraction(finNumerator, finDenominator)
         }
+        return Fraction(numerator, denominator)
     }
 
-    override fun multiplyFractions(other: Any?) { // წილადების გამრავლება
+    override fun multiplyFractions(other: Any?): Any? { // წილადების გამრავლება
         if (other is Fraction) {
             val finDenominator = denominator * other.denominator
             val finNumerator = numerator * other.numerator
-            denominator = finDenominator
-            numerator = finNumerator
+            return Fraction(finNumerator, finDenominator)
         }
+        return Fraction(numerator, denominator)
     }
 }
 
-public fun gcd(a: Int, b: Int): Int {
+fun gcd(a: Int, b: Int): Int {
     if (a == 0) {
         return b
     }
