@@ -1,15 +1,28 @@
 fun main() {
-    var f1 = Fraction(5,10)
+    var f1 = Fraction(75,60)
 
     var f2 = Fraction(9,12)
 
-    println(f1.toString())
+    println(f1)
+    println(f1==f2)
+    f1.simplifyFraction()
     println(f1)
 
-    println(f1.equals(f2))
-    println(f1==f2)
+    f1.subtractFractions(f2)
+    f1.simplifyFraction()
+    println(f1)
 
-    println(f1.addFractions(f2))
+    f1.addFractions(f2)
+    f1.simplifyFraction()
+    println(f1)
+
+    f1.divideFractions(f2)
+    f1.simplifyFraction()
+    println(f1)
+
+    f1.multiplyFractions(f2)
+    f1.simplifyFraction()
+    println(f1)
 }
 
 interface FractionMaths {
@@ -20,7 +33,7 @@ interface FractionMaths {
         fun divideFractions(other: Any?) // გაყოფა
 }
 
-open class Fraction(private var numerator: Int, private var denominator: Int): FractionMaths {
+open class Fraction(public var numerator: Int, public var denominator: Int): FractionMaths {
 
     override fun toString(): String { // გამოტანა
         return "$numerator / $denominator"
@@ -28,28 +41,18 @@ open class Fraction(private var numerator: Int, private var denominator: Int): F
 
     override fun equals(other: Any?): Boolean { // გატოლება
         if (other is Fraction) {
-            if (numerator * other.denominator == other.denominator * numerator) {
+            if (numerator * other.denominator == other.numerator * denominator) {
                 return true
             }
+            return false
         }
         return false
     }
 
     override fun simplifyFraction() { // წილადის გამარტივება
-        var i = 0
-        if (numerator % 3 == 0 && denominator % 2 == 0) {
-            numerator/=3
-            denominator/=3
-            while (numerator % 2 == 0 && denominator % 2 == 0) {
-                numerator /= 2
-                denominator /= 2
-
-            }
-        }
-        while (numerator % 2 == 0 && denominator % 2 == 0) {
-            numerator /= 2
-            denominator /= 2
-        }
+        var gcd1 = gcd(numerator, denominator)
+        numerator /= gcd1
+        denominator /= gcd1
     }
 
     override fun addFractions(other: Any?) { //წილადების დამატება
