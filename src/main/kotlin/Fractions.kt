@@ -9,14 +9,15 @@ fun main() {
     println(f1.equals(f2))
     println(f1==f2)
 
+    println(f1.addFractions(f2))
 }
 
 interface FractionMaths {
         fun simplifyFraction() // გამარტივება
-        fun addFractions() // დამატება
-        fun subtractFractions() // გამოკლება
-        fun multiplyFractions() // გამრავლება
-        fun divideFractions() // გაყოფა
+        fun addFractions(other: Any?) // დამატება
+        fun subtractFractions(other: Any?) // გამოკლება
+        fun multiplyFractions(other: Any?) // გამრავლება
+        fun divideFractions(other: Any?) // გაყოფა
 }
 
 open class Fraction(private var numerator: Int, private var denominator: Int): FractionMaths {
