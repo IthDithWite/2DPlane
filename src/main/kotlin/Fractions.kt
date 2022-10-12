@@ -13,7 +13,7 @@ fun main() {
 
 interface FractionMaths {
         fun simplifyFraction() // გამარტივება
-        fun findGCD(): Int // უდიდესი გამყოფი
+        fun addFractions() // დამატება
         fun subtractFractions() // გამოკლება
         fun multiplyFractions() // გამრავლება
         fun divideFractions() // გაყოფა
@@ -37,6 +37,8 @@ open class Fraction(private var numerator: Int, private var denominator: Int): F
     override fun simplifyFraction() { // წილადის გამარტივება
         var i = 0
         if (numerator % 3 == 0 && denominator % 2 == 0) {
+            numerator/=3
+            denominator/=3
             while (numerator % 2 == 0 && denominator % 2 == 0) {
                 numerator /= 2
                 denominator /= 2
@@ -51,37 +53,39 @@ open class Fraction(private var numerator: Int, private var denominator: Int): F
 
     override fun addFractions(other: Any?) { //წილადების დამატება
          if (other is Fraction) {
-             return findGCD(other)
+             var gcds=gcd(denominator,other.denominator)
+             val finDenominator = (denominator * other.denominator)/gcds
+             val finNumerator = ((numerator) * (finDenominator/denominator) + (other.numerator) * (finDenominator/other.denominator))
+             numerator = finNumerator
+             denominator = finDenominator
          }
     }
 
-    override fun subtractFractions() { // წილადების გამოკლება
-        TODO("Not yet implemented")
+    override fun subtractFractions(other: Any?) { // წილადების გამოკლება
+        if (other is Fraction) {
+            var gcds=gcd(denominator,other.denominator)
+            val finDenominator = (denominator * other.denominator)/gcds
+            val finNumerator = ((numerator) * (finDenominator/denominator) - (other.numerator) - (finDenominator/other.denominator))
+            numerator = finNumerator
+            denominator = finDenominator
+        }
     }
 
-    override fun divideFractions() { //წილადების გაყოფა
-        TODO("Not yet implemented")
+    override fun divideFractions(other: Any?) { //წილადების გაყოფა
+        if (other is Fraction) {
+            val finDenominator = denominator * other.numerator
+            val finNominator = numerator * other.denominator
+        }
     }
 
     override fun multiplyFractions() { // წილადების გამრავლება
         TODO("Not yet implemented")
     }
-
 }
 
-fun findGCD(n1: Int,n2: Int): Int { // უდიდესი საერთო გამყოფი
-    var gcd = 1
-    var i = 1
-    while (i <= n1 && i <= n2) {
-        if (n1 % i == 0 && n2 % i == 0)
-            gcd = i
-        ++i
+public fun gcd(a: Int, b: Int): Int {
+    if (a == 0) {
+        return b
     }
-    return gcd
-}
-
-fun findLCM(n1: Int,n2: Int): Int { // უმცირესი საერთო ჯერადი
-    val gcd = findGCD(n1,n2)
-    val lcm = n1 * n2 / gcd
-    return lcm
+    return gcd(b%a, a)
 }
