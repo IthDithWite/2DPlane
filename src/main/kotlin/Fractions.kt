@@ -74,12 +74,19 @@ open class Fraction(private var numerator: Int, private var denominator: Int): F
     override fun divideFractions(other: Any?) { //წილადების გაყოფა
         if (other is Fraction) {
             val finDenominator = denominator * other.numerator
-            val finNominator = numerator * other.denominator
+            val finNumerator = numerator * other.denominator
+            denominator = finDenominator
+            numerator = finNumerator
         }
     }
 
-    override fun multiplyFractions() { // წილადების გამრავლება
-        TODO("Not yet implemented")
+    override fun multiplyFractions(other: Any?) { // წილადების გამრავლება
+        if (other is Fraction) {
+            val finDenominator = denominator * other.denominator
+            val finNumerator = numerator * other.numerator
+            denominator = finDenominator
+            numerator = finNumerator
+        }
     }
 }
 
